@@ -7,32 +7,32 @@ const works = [
   {
     title: "Album Cover Yeezus",
     img: "/img/img1.png",
-    model: "/example.glb",
+    model: "/model/example.glb",
   },
   {
     title: "Louis Vuitton Holographic Duffel Bag",
     img: "/img/img2.png",
-    model: "/example.glb",
+    model: "/model/example.glb",
   },
   {
     title: "Off-White™ Industrial Belt",
     img: "/img/img3.png",
-    model: "/example.glb",
+    model: "/model/example.glb",
   },
   {
     title: "'The Ten' Off White x Nike",
     img: "/img/img4.png",
-    model: "/example.glb",
+    model: "/model/example.glb",
   },
   {
     title: "Mercedes Benz G-Class",
     img: "/img/img5.png",
-    model: "/example.glb",
+    model: "/model/example.glb",
   },
   {
     title: "IKEA x Off-White™",
     img: "/img/img6.png",
-    model: "/example.glb",
+    model: "/model/example.glb",
   },
 ];
 
