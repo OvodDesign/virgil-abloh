@@ -1,29 +1,28 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
-import { createXRStore, XR } from "@react-three/xr";
-import { useState } from "react";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+import { useEffect } from "react";
 
-const store = createXRStore();
+interface ARModelProps {
+  modelUrl: string;
+}
 
-const ARModel: React.FC = () => {
-  const [red, setRed] = useState(false);
+const ARModel: React.FC<ARModelProps> = ({ modelUrl }) => {
+  const { scene } = useGLTF(modelUrl);
+
+  useEffect(() => {
+    if (scene) {
+      scene.position.set(0, 0, 0);
+      scene.scale.set(0.15, 0.15, 0.15); // Adjust these values as needed
+    }
+  }, [scene]);
 
   return (
-    <>
-      <button onClick={() => store.enterAR()}>Enter AR</button>
-      <Canvas>
-        <XR store={store}>
-          <mesh
-            pointerEventsType={{ deny: "grab" }}
-            onClick={() => setRed(!red)}
-            position={[0, 1, -1]}
-          >
-            <boxGeometry />
-            <meshBasicMaterial color={red ? "red" : "blue"} />
-          </mesh>
-        </XR>
-      </Canvas>
-    </>
+    <Canvas style={{ width: "100%", height: "100vh" }}>
+      <ambientLight intensity={0.5} />
+      <primitive object={scene} />
+      <OrbitControls />
+    </Canvas>
   );
 };
 
