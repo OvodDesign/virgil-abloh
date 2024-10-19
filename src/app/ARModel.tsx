@@ -3,12 +3,8 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import { useEffect } from "react";
 
-interface ARModelProps {
-  modelUrl: string;
-}
-
-const ARModel: React.FC<ARModelProps> = ({ modelUrl }) => {
-  const { scene } = useGLTF(modelUrl);
+const ARModel: React.FC = () => {
+  const { scene } = useGLTF("/model/example.glb");
 
   useEffect(() => {
     if (scene) {

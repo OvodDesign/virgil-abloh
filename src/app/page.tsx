@@ -1,13 +1,15 @@
 "use client";
 
-import ARModel from "./ARModel";
+import dynamic from "next/dynamic";
+
+const ARModel = dynamic(() => import("./ARModel").then((mod) => mod.default), {
+  ssr: false,
+});
 
 export default function Home() {
-  const modelUrl = "/model/example.glb";
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <ARModel modelUrl={modelUrl} />
+      <ARModel />
     </div>
   );
 }
