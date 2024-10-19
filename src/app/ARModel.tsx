@@ -1,18 +1,11 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
 import { createXRStore, XR } from "@react-three/xr";
 import { useState } from "react";
 
-interface ARModelProps {
-  modelUrl: string;
-}
-
 const store = createXRStore();
 
-const ARModel: React.FC<ARModelProps> = ({ modelUrl }) => {
-  const { scene } = useGLTF(modelUrl);
-  console.log(scene);
+const ARModel: React.FC = () => {
   const [red, setRed] = useState(false);
 
   return (
