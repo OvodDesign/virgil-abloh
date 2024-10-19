@@ -1,68 +1,36 @@
-import { useEffect } from "react";
-import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { ARButton } from "three/examples/jsm/webxr/ARButton.js";
+"use client";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+import { ARButton, createXRStore, XR } from "@react-three/xr";
+import { useState } from "react";
 
 interface ARModelProps {
   modelUrl: string;
 }
 
+const store = createXRStore();
+
 const ARModel: React.FC<ARModelProps> = ({ modelUrl }) => {
-  useEffect(() => {
-    let scene: THREE.Scene;
-    let camera: THREE.PerspectiveCamera;
-    let renderer: THREE.WebGLRenderer;
+  const { scene } = useGLTF(modelUrl);
+  const [red, setRed] = useState(false);
 
-    function init() {
-      const container = document.getElementById("ar-container");
-      if (!container) return;
-
-      scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(
-        70,
-        window.innerWidth / window.innerHeight,
-        0.01,
-        20
-      );
-
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.xr.enabled = true;
-      container.appendChild(renderer.domElement);
-
-      // Add AR button to enable WebXR
-      document.body.appendChild(ARButton.createButton(renderer));
-
-      // Add lighting to the scene
-      const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-      light.position.set(0.5, 1, 0.25);
-      scene.add(light);
-
-      // Load the 3D model using GLTFLoader
-      const loader = new GLTFLoader();
-      loader.load(modelUrl, function (gltf) {
-        const model = gltf.scene;
-        model.position.set(0, 0, -2); // Position model 2 meters in front
-        scene.add(model);
-      });
-
-      renderer.setAnimationLoop(render);
-    }
-
-    function render() {
-      renderer.render(scene, camera);
-    }
-
-    init();
-
-    return () => {
-      renderer.dispose();
-      const container = document.getElementById("ar-container");
-      if (container) container.innerHTML = ""; // Clean up
-    };
-  }, [modelUrl]);
-
-  return <div id="ar-container" style={{ width: "100vw", height: "100vh" }} />;
+  return (
+    <>
+      <button onClick={() => store.enterAR()}>Enter AR</button>
+      <Canvas>
+        <XR store={store}>
+          <mesh
+            pointerEventsType={{ deny: "grab" }}
+            onClick={() => setRed(!red)}
+            position={[0, 1, -1]}
+          >
+            <boxGeometry />
+            <meshBasicMaterial color={red ? "red" : "blue"} />
+          </mesh>
+        </XR>
+      </Canvas>
+    </>
+  );
 };
 
 export default ARModel;
