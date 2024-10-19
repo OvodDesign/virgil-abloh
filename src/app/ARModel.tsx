@@ -1,7 +1,7 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useGLTF } from "@react-three/drei";
-import { ARButton, createXRStore, XR } from "@react-three/xr";
+import { useGLTF } from "@react-three/drei";
+import { createXRStore, XR } from "@react-three/xr";
 import { useState } from "react";
 
 interface ARModelProps {
@@ -12,6 +12,7 @@ const store = createXRStore();
 
 const ARModel: React.FC<ARModelProps> = ({ modelUrl }) => {
   const { scene } = useGLTF(modelUrl);
+  console.log(scene);
   const [red, setRed] = useState(false);
 
   return (
